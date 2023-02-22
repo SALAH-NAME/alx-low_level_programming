@@ -4,6 +4,7 @@
  * main -  positive_or_negative
  * Return: Always 0 (Success)
  */
+
 int main(void)
 {
 	int i;
