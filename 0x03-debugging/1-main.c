@@ -1,10 +1,8 @@
 #include <stdio.h>
 
 /**
- *
  * main - Infinite loop 
  * Return: 0 
- *
  */
 
 int main(void)
