@@ -1,11 +1,11 @@
-#include "main.h"
-
 /**
- * main - main
- * reset_to_98 - reset to 98
+ * reset_to_98 - takes a pointer to an int parameter
+ * @n: int parameter
+ *
+ * Return: Nothing
  */
 
-void reset_to_98(int* p)
+void reset_to_98(int *n)
 {
-*p = 98;
+	*n = 98;
 }
