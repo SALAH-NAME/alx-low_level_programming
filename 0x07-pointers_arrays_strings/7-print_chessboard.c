@@ -2,10 +2,9 @@
 
 /**
  * print_chessboard - prints the chessboard
- * @a: input pointer
- * Retrun: no
+ * @a: input pointer.
+ * Return: no return.
  */
-
 void print_chessboard(char (*a)[8])
 {
 	unsigned int i, m = 0;
@@ -15,9 +14,9 @@ void print_chessboard(char (*a)[8])
 		if (i % 8 == 0 && i != 0)
 		{
 			m = i;
-			_putcahr('\n');
+			_putchar('\n');
 		}
-		_putchar(a[i / 8][i - m];
+		_putchar(a[i / 8][i - m]);
 	}
-	-putchar('\n');
+	_putchar('\n');
 }
