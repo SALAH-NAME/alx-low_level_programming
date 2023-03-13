@@ -1,13 +1,13 @@
-#include <stdlib.h>
 #include "main.h"
+#include <stdlib.h>
 
-/*
- * str_concat - concatenates two stirngs
- * @s1: string
- * @s2: string
- * Retrun: pointer of array
+/**
+ * str_concat - concatenates two strings.
+ * @s1: first string.
+ * @s2: second string.
+ *
+ * Return: pointer of an array of chars
  */
-
 char *str_concat(char *s1, char *s2)
 {
 	char *strout;
@@ -31,7 +31,7 @@ char *str_concat(char *s1, char *s2)
 		free(strout);
 		return (NULL);
 	}
-	
+
 	for (k = 0; k < i; k++)
 		strout[k] = s1[k];
 
