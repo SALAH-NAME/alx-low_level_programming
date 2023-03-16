@@ -1,136 +1,190 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
-#include "main.h"
+#include "mian.h"
 
 /**
- * _is_zero - determines if any number is zero
- * @argv: argument vector.
+ * error_exit - prints error with _putchar
+ *              and exits with 98
  *
- * Return: no return.
- */
+ * Return: Error 98 and exit(98)
+*/
 
-void _is_zero(char *argv[])
+int error_exit(void)
 {
-	int i, isn1 = 1, isn2 = 1;
+	char *err;
+	int i;
 
-	for (i = 0; argv[1][i]; i++)
-		if (argv[1][i] != '0')
-		{
-			isn1 = 0;
-			break;
-		}
-
-	for (i = 0; argv[2][i]; i++)
-		if (argv[2][i] != '0')
-		{
-			isn2 = 0;
-			break;
-		}
-
-	if (isn1 == 1 || isn2 == 1)
-	{
-		printf("0\n");
-		exit(0);
-	}
+	err = "Error";
+	for (i = 0; err[i] != '\0'; i++)
+		_putchar(err[i]);
+	_putchar('\n');
+	exit(98);
 }
 
 /**
- * _initialize_array - set memery to zero in a new array
- * @ar: char array.
- * @lar: length of the char array.
+ * check_number - checks if string has only
+ *                numbers
  *
- * Return: pointer of a char array.
- */
+ * @str: string to check
+ *
+ * Return: 0 is true 1 if false
+*/
 
-char *_initialize_array(char *ar, int lar)
+int check_number(char *str)
+{
+	while (*str != '\0')
+	{
+		if (*str < '0' || *str > '9')
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
+/**
+ * _length - get the length of strings
+ *
+ * @str: string to get length of
+ *
+ * Return: length of string
+*/
+
+int _length(char *str)
 {
 	int i = 0;
 
-	for (i = 0; i < lar; i++)
-		ar[i] = '0';
-	ar[lar] = '\0';
-	return (ar);
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
 /**
- * _checknum - determines length of the number
- * and checks if number is in base 10.
- * @argv: arguments vector.
- * @n: row of the array.
+ * _memset - fills memory with a constant byte
  *
- * Return: length of the number.
- */
+ * @s: input pointer that represents memory block
+ *     to fill
+ * @b: characters to fill/set
+ * @n: number of bytes to be filled
+ *
+ * Return: pointer to the filled memory area
+*/
 
-int _checknum(char *argv[], int n)
+char *_memset(char *s, char b, unsigned int n)
 {
-	int ln;
+	unsigned int i = 0;
 
-	for (ln = 0; argv[n][ln]; ln++)
-		if (!isdigit(argv[n][ln]))
-		{
-			printf("Error\n");
-			exit(98);
-		}
-
-	return (ln);
+	while (i < n)
+	{
+		s[i] = b;
+		i++;
+	}
+	return (s);
 }
 
 /**
- * main - Entry point.
- * program that multiplies two positive numbers.
- * @argc: number of arguments.
- * @argv: arguments vector.
+ * _calloc - function that allocates memory
+ *           for an array using memset
  *
- * Return: 0 - success.
- */
+ * @nmemb: size of array
+ * @size: size of each element
+ *
+ * Return: pointer to new allocated memory
+*/
+
+void *_calloc(unsigned int nmemb, unsigned int size)
+{
+	char *ptr;
+
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	_memset(ptr, 0, nmemb * size);
+
+	return (ptr);
+}
+
+
+/**
+ * multiply - initialize array with 0 byte
+ *
+ * @s1: string 1
+ * @s2: string 2
+ *
+ * Return: nothing
+*/
+
+void multiply(char *s1, char *s2)
+{
+	int i, l1, l2, total_l, f_digit, s_digit, res = 0, tmp;
+	char *ptr;
+	void *temp;
+
+	l1 = _length(s1);
+	l2 = _length(s2);
+	tmp = l2;
+	total_l = l1 + l2;
+	ptr = _calloc(sizeof(int), total_l);
+
+	/* store our pointer address to free later */
+	temp = ptr;
+
+	for (l1--; l1 >= 0; l1--)
+	{
+		f_digit = s1[l1] - '0';
+		res = 0;
+		l2 = tmp;
+		for (l2--; l2 >= 0; l2--)
+		{
+			s_digit = s2[l2] - '0';
+			res += ptr[l2 + l1 + 1] + (f_digit * s_digit);
+			ptr[l1 + l2 + 1] = res % 10;
+			res /= 10;
+		}
+		if (res)
+			ptr[l1 + l2 + 1] = res % 10;
+	}
+
+	while (*ptr == 0)
+	{
+		ptr++;
+		total_l--;
+	}
+
+	for (i = 0; i < total_l; i++)
+		printf("%i", ptr[i]);
+	printf("\n");
+	free(temp);
+}
+
+
+/**
+ * main - Entry point
+ *
+ * Description: a program that multiplies
+ *            two positive numbers
+ *
+ * @argc: number of arguments
+ * @argv: arguments array
+ *
+ * Return: 0 on success 98 on faliure
+*/
 
 int main(int argc, char *argv[])
 {
-	int ln1, ln2, lnout, add, addl, i, j, k, ca;
-	char *nout;
+	char *n1 = argv[1];
+	char *n2 = argv[2];
 
-	if (argc != 3)
-		printf("Error\n"), exit(98);
+	if (argc != 3 || check_number(n1) || check_number(n2))
+		error_exit();
 
-	ln1 = _checknum(argv, 1), ln2 = _checknum(argv, 2);
-	_is_zero(argv), lnout = ln1 + ln2, nout = malloc(lnout + 1);
-
-	if (nout == NULL)
-		printf("Error\n"), exit(98);
-
-	nout = _initialize_array(nout, lnout);
-	k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
-
-	for (; k >= 0; k--, i--)
+	if (*n1 == '0' || *n2 == '0')
 	{
-		if (i < 0)
-		{
-			if (addl > 0)
-			{
-				add = (nout[k] - '0') + addl;
-				if (add > 9)
-					nout[k - 1] = (add / 10) + '0';
-				nout[k] = (add % 10) + '0';
-			}
-			i = ln1 - 1, j--, addl = 0, ca++, k = lnout - (1 + ca);
-		}
-
-		if (j < 0)
-		{
-			if (nout[0] != '0')
-				break;
-			lnout--;
-			free(nout), nout = malloc(lnout + 1), nout = _initialize_array(nout, lnout);
-			k = lnout - 1, i = ln1 - 1, j = ln2 - 1, ca = addl = 0;
-		}
-
-		if (j >= 0)
-		{
-			add = ((argv[1][i] - '0') * (argv[2][j] - '0')) + (nout[k] - '0') + addl;
-			addl = add / 10, nout[k] = (add % 10) + '0';
-		}
+		_putchar('0');
+		_putchar('\n');
 	}
-	printf("%s\n", nout);
+	else
+		multiply(n1, n2);
 	return (0);
 }
