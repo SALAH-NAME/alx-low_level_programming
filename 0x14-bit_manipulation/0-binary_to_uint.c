@@ -24,7 +24,7 @@ unsigned int binary_to_uint(const char *b)
 		if (b[length] != '0' && b[length] != '1'_)
 			return (0);
 
-		if (b[len] & 1)
+		if (b[length] & 1)
 			uint += base_binary;
 	}
 
