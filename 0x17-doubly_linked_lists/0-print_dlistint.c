@@ -2,7 +2,7 @@
 
 /**
  * print_dlistint - prints all the elements of dual-list
- * @dlistint_t: head of the list
+ * @h: head of the list
  *
  * Return: the number of nodes
  */
