@@ -9,17 +9,12 @@
  */
 void print_array(int *array, size_t start, size_t end)
 {
-	size_t i
+	size_t i;
 
 	printf("Searching in array: ");
 	for (i = start; i < end; i++)
-	{
-		printf("%d", array[i]);
-		if (i < end - 1)
-			printf(", ");
-		else
-			printf("\n");
-	}
+		printf("%d, ", array[i]);
+	printf("%d\n", array[i]);
 }
 
 /**
@@ -31,27 +26,26 @@ void print_array(int *array, size_t start, size_t end)
  * @value: Value to search for
  *
  * Return: The first index where value is located,
- *         or -1 if value is not present in array or if array
+ *         or -1 if value is not present in array or if array is NULL
  */
 int binary_search(int *array, size_t size, int value)
 {
-	size_t start = 0;
-	size_t end = size;
-	size_t mid;
+	size_t i, start, end;
 
-	if (!array)
+	if (array == NULL)
 		return (-1);
 
-	while (start < end)
+	for (start = 0, end = size - 1; end >= start;)
 	{
 		print_array(array, start, end);
-		mid = (start + end) / 2;
-		if (array[mid] < value)
-			start = mid + 1;
-		else if (array[mid] > value)
-		end = mid;
+
+		i = start + (end - start) / 2;
+		if (array[i] == value)
+			return (i);
+		if (array[i] > value)
+			end = i - 1;
 		else
-			return (mid);
+			start = i + 1;
 	}
 
 	return (-1);
